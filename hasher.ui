@@ -202,14 +202,17 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>140</x>
       <y>152</y>
-      <width>471</width>
+      <width>451</width>
       <height>31</height>
      </rect>
     </property>
     <property name="value">
      <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
