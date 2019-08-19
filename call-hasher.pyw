@@ -5,7 +5,7 @@ from PyQt5.QtCore import *
 # from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox 
 from Ui_hasher import *
-import traceback, sys
+import sys
 
 from hashlib import sha256, md5, sha1
 from os.path import getsize
@@ -24,20 +24,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         if filepath:
             self.file_path.setText(filepath)
         # self.file_path is the QLineEdit object
-    
-    def checksum(self, filename, hasher, block_size=65536):
-        percent_step = 100 * block_size / getsize(filename)
-        percent=0
-        # open file with 'r'=read mode and 'b'=byte mode
-        with open(filename, 'rb') as f:
-            # read file until an sentinel bytearray()=""
-            # lambda: f.read(block_size) is a function without input varaible
-            for block in iter(lambda: f.read(block_size), bytearray()):
-                hasher.update(block)
-                percent = percent + percent_step
-                self.progressBar.setValue(percent)
-        self.progressBar.setValue(100)
-        return hasher.hexdigest()
     
     def output_checksum(self):
         block_size=65536
