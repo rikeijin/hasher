@@ -1,13 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import sys 	
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog 
+
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox 
 from Ui_hasher import *
 
 from hashlib import sha256, md5, sha1
 from os.path import getsize
-
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):    
@@ -26,7 +25,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def checksum(self, filename, hasher, block_size=65536):
         percent_step = 100 * block_size / getsize(filename)
         percent=0
+        # open file with 'r'=read mode and 'b'=byte mode
         with open(filename, 'rb') as f:
+            # read file until an sentinel bytearray()=""
+            # lambda: f.read(block_size) is a function without input varaible
             for block in iter(lambda: f.read(block_size), bytearray()):
                 hasher.update(block)
                 percent = percent + percent_step
@@ -44,7 +46,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             result=self.checksum(self.file_path.text(), hasher)
             self.hash_result.setText(result)
         except:
-            pass
+            QMessageBox.about(self, "Error", "No such file. Please check the path")
         
         #self.hash_result.adjustSize()
     
@@ -54,7 +56,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.match_label.setText("unmatched:(")
         self.match_label.adjustSize()
-if __name__=="__main__":  
+if __name__=="__main__":
+    import sys
     app = QApplication(sys.argv)  
     myWin = MyMainWindow()  
     myWin.show()  
