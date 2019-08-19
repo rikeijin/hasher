@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5.QtCore import *
-# from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox 
 from Ui_hasher import *
 import sys
@@ -17,6 +16,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.browse.clicked.connect(self.browsefile)
         self.hash.clicked.connect(self.output_checksum)
         self.compare.clicked.connect(self.compare_function)
+        # define threapool for multithread
         self.threadpool = QThreadPool()
     
     def browsefile(self):
@@ -27,16 +27,17 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     
     def output_checksum(self):
         block_size=65536
-        path_and_filename = self.file_path.text()
         hasher = sha256()
         if self.radio_md5.isChecked()==True:
             hasher=md5()
         elif self.radio_sha1.isChecked()==True:
             hasher=sha1()
-        worker=Worker(path_and_filename, hasher, block_size)
+        # put the checksum calculator in another thread
+        worker=Worker(self.file_path.text(), hasher, block_size)
         worker.signals.error.connect(self.pop_error_window)
         worker.signals.result.connect(self.hash_result.setText)
         worker.signals.progress.connect(self.progressBar.setValue)
+        # start threadpool
         self.threadpool.start(worker)
     def pop_error_window(self):
         QMessageBox.about(self, "Error", "No such file. Please check the path")
@@ -50,19 +51,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         
         
 class Worker(QRunnable):
-    '''
-    Worker thread
-
-    Inherits from QRunnable to handler worker thread setup, signals and wrap-up.
-
-    :param callback: The function callback to run on this worker thread. Supplied args and 
-                     kwargs will be passed through to the runner.
-    :type callback: function
-    :param args: Arguments to pass to the callback function
-    :param kwargs: Keywords to pass to the callback function
-
-    '''
-
     def __init__(self, filename, hasher, blocksize):
         super(Worker, self).__init__()
         self.filename=filename
@@ -88,28 +76,17 @@ class Worker(QRunnable):
 #            self.signals.finished.emit()
         
 
-
 class WorkerSignals(QObject):
-    '''
-    Defines the signals available from a running worker thread.
-
-    Supported signals are:
-
-    finished
-        No data
-    
-    error
-        `tuple` (exctype, value, traceback.format_exc() )
-    
-    result
-        `object` data returned from processing, anything
-        
-    Defines the signals available from a running worker thread.
-
-    progress
-        int progress complete,from 0-100
-
-    '''
+#    Defines the signals available from a running worker thread.
+#    Supported signals are:
+#       finished
+#           No data
+#       error
+#
+#       result
+#           digest() method will return a string in python
+#       progress
+#           int progress complete,from 0-100
     progress = pyqtSignal(int)
 #    finished = pyqtSignal()
     error = pyqtSignal()
