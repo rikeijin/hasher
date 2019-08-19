@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>File Checksum</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="apprcc.qrc">
+    <normaloff>:/ico/icon/hasher.ico</normaloff>:/ico/icon/hasher.ico</iconset>
+  </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
@@ -206,7 +210,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -276,6 +280,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="apprcc.qrc"/>
+ </resources>
  <connections/>
 </ui>

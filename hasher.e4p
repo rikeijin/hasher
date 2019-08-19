@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project hasher -->
-<!-- Saved: 2019-08-19, 01:01:23 -->
+<!-- Saved: 2019-08-20, 01:12:06 -->
 <!-- Copyright (C) 2019 ,  -->
 <Project version="5.1">
   <Language></Language>
@@ -20,6 +20,9 @@
   <Forms>
     <Form>hasher.ui</Form>
   </Forms>
+  <Resources>
+    <Resource>apprcc.qrc</Resource>
+  </Resources>
   <Others>
     <Other>.gitignore</Other>
   </Others>

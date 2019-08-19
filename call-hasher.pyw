@@ -26,7 +26,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # self.file_path is the QLineEdit object
     
     def output_checksum(self):
-        block_size=65536
+        block_size=65536 #may write GUI to choose block_size later 
         hasher = sha256()
         if self.radio_md5.isChecked()==True:
             hasher=md5()
@@ -40,7 +40,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # start threadpool
         self.threadpool.start(worker)
     def pop_error_window(self):
-        QMessageBox.about(self, "Error", "No such file. Please check the path")
+        QMessageBox.warning(self, "Error", "No such file.\nPlease check the path")
 
     def compare_function(self):
         if self.hash_result.text()==self.compare_value.text():
