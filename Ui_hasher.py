@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'D:\projects\hasher\hasher.ui'
@@ -39,7 +38,8 @@ class Ui_MainWindow(object):
         self.hash_result = QtWidgets.QLabel(self.centralwidget)
         self.hash_result.setGeometry(QtCore.QRect(40, 210, 551, 41))
         font = QtGui.QFont()
-        font.setFamily("Arial")
+        font.setFamily("Courier")
+        font.setPointSize(8)
         self.hash_result.setFont(font)
         self.hash_result.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.hash_result.setFrameShape(QtWidgets.QFrame.Panel)
@@ -51,7 +51,8 @@ class Ui_MainWindow(object):
         self.compare_value = QtWidgets.QLineEdit(self.centralwidget)
         self.compare_value.setGeometry(QtCore.QRect(40, 260, 551, 41))
         font = QtGui.QFont()
-        font.setFamily("Arial")
+        font.setFamily("Courier")
+        font.setPointSize(8)
         self.compare_value.setFont(font)
         self.compare_value.setText("")
         self.compare_value.setObjectName("compare_value")

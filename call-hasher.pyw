@@ -58,7 +58,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.match_label.adjustSize()
 if __name__=="__main__":
     import sys
-    app = QApplication(sys.argv)  
+    from os import environ
+    environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    app = QApplication(sys.argv) 
+    app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     myWin = MyMainWindow()  
     myWin.show()  
     sys.exit(app.exec_()) 
