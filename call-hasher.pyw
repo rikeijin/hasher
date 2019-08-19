@@ -35,17 +35,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             hasher=sha1()
         worker=Worker(path_and_filename, hasher, block_size)
         worker.signals.error.connect(self.pop_error_window)
-        worker.signals.result.connect(self.show_checksum)
-        worker.signals.progress.connect(self.update_progress)
+        worker.signals.result.connect(self.hash_result.setText)
+        worker.signals.progress.connect(self.progressBar.setValue)
         self.threadpool.start(worker)
     def pop_error_window(self):
         QMessageBox.about(self, "Error", "No such file. Please check the path")
-    def show_checksum(self, checksum):
-        self.hash_result.setText(checksum)
-    def update_progress(self, p):
-        self.progressBar.setValue(p)
-        
-    
+
     def compare_function(self):
         if self.hash_result.text()==self.compare_value.text():
             self.match_label.setText("Matched!")
