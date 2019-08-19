@@ -40,9 +40,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             hasher=md5()
         elif self.radio_sha1.isChecked()==True:
             hasher=sha1()
-            
-        result=self.checksum(self.file_path.text(), hasher)
-        self.hash_result.setText(result)
+        try:    
+            result=self.checksum(self.file_path.text(), hasher)
+            self.hash_result.setText(result)
+        except:
+            pass
+        
         #self.hash_result.adjustSize()
     
     def compare_function(self):
