@@ -17,6 +17,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.browse.clicked.connect(self.browsefile)
         self.hash.clicked.connect(self.output_checksum)
         self.compare.clicked.connect(self.compare_function)
+        self.threadpool = QThreadPool()
     
     def browsefile(self):
         filepath, _ = QFileDialog.getOpenFileName(self, "Choose File to Hash","./")
@@ -39,18 +40,25 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         return hasher.hexdigest()
     
     def output_checksum(self):
+        block_size=65536
+        path_and_filename = self.file_path.text()
         hasher = sha256()
         if self.radio_md5.isChecked()==True:
             hasher=md5()
         elif self.radio_sha1.isChecked()==True:
             hasher=sha1()
-        try:    
-            result=self.checksum(self.file_path.text(), hasher)
-            self.hash_result.setText(result)
-        except:
-            QMessageBox.about(self, "Error", "No such file. Please check the path")
+        worker=Worker(path_and_filename, hasher, block_size)
+        worker.signals.error.connect(self.pop_error_window)
+        worker.signals.result.connect(self.show_checksum)
+        worker.signals.progress.connect(self.update_progress)
+        self.threadpool.start(worker)
+    def pop_error_window(self):
+        QMessageBox.about(self, "Error", "No such file. Please check the path")
+    def show_checksum(self, checksum):
+        self.hash_result.setText(checksum)
+    def update_progress(self, p):
+        self.progressBar.setValue(p)
         
-        #self.hash_result.adjustSize()
     
     def compare_function(self):
         if self.hash_result.text()==self.compare_value.text():
@@ -74,35 +82,29 @@ class Worker(QRunnable):
 
     '''
 
-    def __init__(self, fn, *args, **kwargs):
+    def __init__(self, filename, hasher, blocksize):
         super(Worker, self).__init__()
-
-        # Store constructor arguments (re-used for processing)
-        self.fn = fn
-        self.args = args
-        self.kwargs = kwargs
-        self.signals = WorkerSignals()    
-
-        # Add the callback to our kwargs
-        self.kwargs['progress_callback'] = self.signals.progress        
-
+        self.filename=filename
+        self.hasher=hasher
+        self.block_size=blocksize
+        self.signals = WorkerSignals()        
+        
     @pyqtSlot()
     def run(self):
-        '''
-        Initialise the runner function with passed args, kwargs.
-        '''
-        
-        # Retrieve args/kwargs here; and fire processing using them
         try:
-            result = self.fn(*self.args, **self.kwargs)
+            percent_step = 100 * self.block_size / getsize(self.filename)
+            percent=0
+            with open(self.filename, 'rb') as f:
+                for block in iter(lambda: f.read(self.block_size), bytearray()):
+                    self.hasher.update(block)
+                    percent = percent + percent_step
+                    self.signals.progress.emit(int(percent))
+            self.signals.progress.emit(100)
+            self.signals.result.emit(self.hasher.hexdigest())
         except:
-            traceback.print_exc()
-            exctype, value = sys.exc_info()[:2]
-            self.signals.error.emit((exctype, value, traceback.format_exc()))
-        else:
-            self.signals.result.emit(result)  # Return the result of the processing
-        finally:
-            self.signals.finished.emit()  # Done
+            self.signals.error.emit()
+#        finally:
+#            self.signals.finished.emit()
         
 
 
@@ -128,9 +130,9 @@ class WorkerSignals(QObject):
 
     '''
     progress = pyqtSignal(int)
-    finished = pyqtSignal()
-    error = pyqtSignal(tuple)
-    result = pyqtSignal(object)
+#    finished = pyqtSignal()
+    error = pyqtSignal()
+    result = pyqtSignal(str)
 
 if __name__=="__main__":
     from os import environ
