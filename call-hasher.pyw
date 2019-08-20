@@ -25,6 +25,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.file_path.setText(filepath)
         # self.file_path is the QLineEdit object
     
+    @pyqtSlot()
     def output_checksum(self):
         block_size=65536 #may write GUI to choose block_size later 
         hasher = sha256()
@@ -37,8 +38,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         worker.signals.error.connect(self.pop_error_window)
         worker.signals.result.connect(self.hash_result.setText)
         worker.signals.progress.connect(self.progressBar.setValue)
+        # below: when connect signal we can use lambda function without input variable to simplify code
+        worker.signals.finished.connect(lambda:self.hash.setEnabled(True))
+        self.hash.setEnabled(False)
         # start threadpool
         self.threadpool.start(worker)
+        
     def pop_error_window(self):
         QMessageBox.warning(self, "Error", "No such file.\nPlease check the path")
 
@@ -51,11 +56,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         
         
 class Worker(QRunnable):
-    def __init__(self, filename, hasher, blocksize):
+    def __init__(self, filename, hasher, block_size):
         super(Worker, self).__init__()
         self.filename=filename
         self.hasher=hasher
-        self.block_size=blocksize
+        self.block_size=block_size
         self.signals = WorkerSignals()        
         
     @pyqtSlot()
@@ -63,17 +68,22 @@ class Worker(QRunnable):
         try:
             percent_step = 100 * self.block_size / getsize(self.filename)
             percent=0
+            # The real hash process as below
             with open(self.filename, 'rb') as f:
                 for block in iter(lambda: f.read(self.block_size), bytearray()):
                     self.hasher.update(block)
+                    # above: read file
                     percent = percent + percent_step
                     self.signals.progress.emit(int(percent))
+                    #above: update progress bar
             self.signals.progress.emit(100)
+            #above: set progress bar to 100%
             self.signals.result.emit(self.hasher.hexdigest())
+            #above: output checksum result
         except:
             self.signals.error.emit()
-#        finally:
-#            self.signals.finished.emit()
+        finally:
+            self.signals.finished.emit()
         
 
 class WorkerSignals(QObject):
@@ -82,13 +92,13 @@ class WorkerSignals(QObject):
 #       finished
 #           No data
 #       error
-#
+#           No data
 #       result
 #           digest() method will return a string in python
 #       progress
 #           int progress complete,from 0-100
     progress = pyqtSignal(int)
-#    finished = pyqtSignal()
+    finished = pyqtSignal()
     error = pyqtSignal()
     result = pyqtSignal(str)
 
