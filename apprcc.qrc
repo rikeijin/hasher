@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="ico">
+    <file>icon/hasher.ico</file>
+  </qresource>
+</RCC>

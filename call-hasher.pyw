@@ -48,7 +48,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         QMessageBox.warning(self, "Error", "No such file.\nPlease check the path")
 
     def compare_function(self):
-        if self.hash_result.text()==self.compare_value.text():
+        #below: remove leading and trailing space of string by strip()
+        if self.hash_result.text()==self.compare_value.text().strip():
             self.match_label.setText("Matched!")
         else:
             self.match_label.setText("Unmatched:(")
