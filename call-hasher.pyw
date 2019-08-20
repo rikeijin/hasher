@@ -33,7 +33,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             hasher=md5()
         elif self.radio_sha1.isChecked()==True:
             hasher=sha1()
-        # put the checksum calculator in another thread
+        # put the checksum calculator in another thread named "worker"
         worker=Worker(self.file_path.text(), hasher, block_size)
         worker.signals.error.connect(self.pop_error_window)
         worker.signals.result.connect(self.hash_result.setText)
@@ -58,11 +58,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         
 class Worker(QRunnable):
     def __init__(self, filename, hasher, block_size):
-        super(Worker, self).__init__()
+        super().__init__()
         self.filename=filename
         self.hasher=hasher
         self.block_size=block_size
-        self.signals = WorkerSignals()        
+        self.signals = WorkerSignals()
         
     @pyqtSlot()
     def run(self):
