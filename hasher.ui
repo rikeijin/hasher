@@ -40,24 +40,6 @@
      <string>Browse</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="file_path">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>40</y>
-      <width>551</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Courier</family>
-     </font>
-    </property>
-    <property name="placeholderText">
-     <string>Paste or browse to file path</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="hash">
     <property name="geometry">
      <rect>
@@ -266,6 +248,30 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QComboBox" name="file_path">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>561</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
+    <property name="currentText">
+     <string>Paste or browse to the file you want to check.</string>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertAtCurrent</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

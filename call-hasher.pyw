@@ -19,11 +19,15 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.compare.clicked.connect(self.compare_function)
         # define threapool for multithread
         self.threadpool = QThreadPool()
-    
+        self.dialog=QFileDialog()
+        
+        
     def browsefile(self):
-        filepath, _ = QFileDialog.getOpenFileName(self, "Choose File to Hash")
+        
+        filepath, _ = self.dialog.getOpenFileName(self, "Choose File to Hash")
         if filepath:
-            self.file_path.setText(filepath)
+            self.file_path.insertItem(0, filepath)
+            self.file_path.setCurrentText(filepath)
 
 
     @pyqtSlot()
@@ -35,7 +39,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         elif self.radio_sha1.isChecked()==True:
             hasher=sha1()
         # put the checksum calculator in another thread named "worker"
-        worker=Worker(self.file_path.text(), hasher, block_size)
+        worker=Worker(self.file_path.currentText(), hasher, block_size)
         worker.signals.error.connect(self.pop_error_window)
         worker.signals.result.connect(self.hash_result.setText)
         worker.signals.progress.connect(self.progressBar.setValue)
