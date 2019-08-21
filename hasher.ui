@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>734</width>
-    <height>381</height>
+    <width>715</width>
+    <height>372</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,9 +24,9 @@
    <widget class="QToolButton" name="browse">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>40</y>
-      <width>111</width>
+      <x>584</x>
+      <y>18</y>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="hash">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>160</y>
+      <x>24</x>
+      <y>138</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -62,8 +62,8 @@
    <widget class="QLabel" name="hash_result">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>210</y>
+      <x>24</x>
+      <y>188</y>
       <width>551</width>
       <height>41</height>
      </rect>
@@ -96,8 +96,8 @@
    <widget class="QLineEdit" name="compare_value">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>260</y>
+      <x>24</x>
+      <y>238</y>
       <width>551</width>
       <height>41</height>
      </rect>
@@ -121,9 +121,9 @@
    <widget class="QPushButton" name="compare">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>210</y>
-      <width>111</width>
+      <x>584</x>
+      <y>188</y>
+      <width>91</width>
       <height>91</height>
      </rect>
     </property>
@@ -140,8 +140,8 @@
    <widget class="QLabel" name="match_label">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>310</y>
+      <x>434</x>
+      <y>288</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -174,8 +174,8 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>160</y>
+      <x>124</x>
+      <y>138</y>
       <width>451</width>
       <height>31</height>
      </rect>
@@ -192,68 +192,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>90</y>
-      <width>291</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QRadioButton" name="radio_md5">
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>MD5</string>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radio_sha1">
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>SHA1</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radio_sha256">
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>SHA256</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QComboBox" name="file_path">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>40</y>
+      <x>24</x>
+      <y>18</y>
       <width>561</width>
       <height>31</height>
      </rect>
@@ -262,6 +205,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="acceptDrops">
+     <bool>true</bool>
     </property>
     <property name="editable">
      <bool>true</bool>
@@ -273,19 +219,92 @@
      <enum>QComboBox::InsertAtCurrent</enum>
     </property>
    </widget>
+   <widget class="QRadioButton" name="radio_md5">
+    <property name="geometry">
+     <rect>
+      <x>45</x>
+      <y>80</y>
+      <width>40</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>MD5</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radio_sha1">
+    <property name="geometry">
+     <rect>
+      <x>143</x>
+      <y>80</y>
+      <width>45</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>SHA1</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radio_sha256">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>80</y>
+      <width>56</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>SHA256</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>734</width>
+     <width>715</width>
      <height>18</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>file_path</tabstop>
+  <tabstop>browse</tabstop>
+  <tabstop>radio_md5</tabstop>
+  <tabstop>radio_sha1</tabstop>
+  <tabstop>radio_sha256</tabstop>
+  <tabstop>hash</tabstop>
+  <tabstop>compare</tabstop>
+  <tabstop>compare_value</tabstop>
+ </tabstops>
  <resources>
   <include location="apprcc.qrc"/>
  </resources>
