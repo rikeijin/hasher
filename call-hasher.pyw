@@ -12,6 +12,7 @@ from os.path import getsize
 class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):    
         super().__init__(parent)
+#       #below: use the setupUi method from Ui_MainWindowindow
         self.setupUi(self)
         self.browse.clicked.connect(self.browsefile)
         self.hash.clicked.connect(self.output_checksum)
@@ -20,11 +21,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.threadpool = QThreadPool()
     
     def browsefile(self):
-        filepath, _ = QFileDialog.getOpenFileName(self, "Choose File to Hash","./")
+        filepath, _ = QFileDialog.getOpenFileName(self, "Choose File to Hash")
         if filepath:
             self.file_path.setText(filepath)
-        # self.file_path is the QLineEdit object
-    
+
+
     @pyqtSlot()
     def output_checksum(self):
         block_size=65536 #may write GUI to choose block_size later 
