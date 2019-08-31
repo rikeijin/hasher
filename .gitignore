@@ -1,6 +1,10 @@
 .eric6project/
 .ropeproject/
 .directory/
+icon/
+venv/
+build/
+dist/
 *.pyc
 *.pyo
 *.orig

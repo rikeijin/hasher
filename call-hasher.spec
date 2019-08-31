@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['call-hasher.pyw'],
-             pathex=['D:\\projects\\hasher'],
+             pathex=['/Users/tensai/projects/hasher'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -30,4 +30,8 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False , icon='icon\\hasher.ico')
+          console=False , icon='icon/1024.icns')
+app = BUNDLE(exe,
+             name='call-hasher.app',
+             icon='./icon/1024.icns',
+             bundle_identifier=None)

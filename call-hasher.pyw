@@ -108,7 +108,7 @@ if __name__=="__main__":
     from os import environ
     environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
     app = QApplication(sys.argv) 
-    app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
+    app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
     myWin = MyMainWindow()  
     myWin.show()  
     sys.exit(app.exec_()) 
